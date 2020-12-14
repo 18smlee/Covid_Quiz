@@ -1,3 +1,15 @@
+<style>
+  .col-xs-05, .col-xs-115 {
+    text-align: center;
+  }
+  .col-xs-05 {
+      width: 6.166%;
+  }
+  .col-xs-115 {
+      width: 95.33%;
+  }
+</style>
+
 <!doctype html>
 <html lang="en">
   <head>
@@ -7,20 +19,22 @@
  
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" />
+
   </head>
   <body>
       <h1 class="m-3 text-center">Covid Quiz Page</h1>
-      <div class="row justify-content-start m-3">
-        <div class="col-1 text-center">
+      <div class="row m-3">
+        <div class="col-xs-05 align-self-center">
           <h6>Never</h6>
         </div>
-        <div class="col-1 text-center">
-          <h6>Once a Month</h6>
+        <div class="col-xs-05 align-self-center">
+            <h6>Once per Month</h6>
         </div>
-        <div class="col-1 text-center">
-          <h6>Once a Week</h6>
+        <div class="col-xs-05 align-self-center">
+          <h6>Once per Week</h6>
         </div>
-        <div class="col-1 text-center">
+        <div class="col-xs-05 align-self-center">
           <h6>Everyday</h6>
         </div>
       </div>
@@ -28,26 +42,26 @@
       <form method="POST" action= "{% url 'dataVis_view' user.id%}">
         {% csrf_token %}
         {% for question in questions %}
-        <div class="form-row justify-content-start m-3">
-          <div class="col-1 text-center">
+        <div class="row m-3">
+          <div class="col-xs-05 text-center">
             <div class="form-check form-check-inline ml-3">
               <input class="form-check-input " type="radio" name={{question.id}} id="neverCheckBox" value="optionNever">
             </div>
           </div>
           
-          <div class="col-1 text-center">
+          <div class="col-xs-05 text-center">
             <div class="form-check form-check-inline ml-3">
               <input class="form-check-input" type="radio" name={{question.id}} id="oncePMCheckBox" value="optionOncePM">
             </div>
           </div>
       
-          <div class="col-1 text-center">
+          <div class="col-xs-05 text-center">
             <div class="form-check form-check-inline ml-3">
               <input class="form-check-input" type="radio" name={{question.id}} id="oncePWCheckBox" value="optionOncePW">
             </div>
           </div>
           
-          <div class="col-1 text-center">
+          <div class="col-xs-05 text-center">
             <div class="form-check form-check-inline ml-3">
               <input class="form-check-input" type="radio" name={{question.id}} id="everydayCheckBox" value="optionEveryday">
             </div>
@@ -63,7 +77,7 @@
           <input class="btn btn-primary m-3" name="submit_button" type="submit" value='Calculate Score'>
         </div>
       </form>
-
+  
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
