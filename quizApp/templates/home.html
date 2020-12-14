@@ -1,27 +1,35 @@
   <!doctype html>
 <html lang="en">
   <head>
-    <!-- Required meta tags -->
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
- 
+  
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <!-- Bootstrap Theme -->
+    <link rel="stylesheet" href="https://bootswatch.com/3/flatly/bootstrap.min.css">
+
   </head>
   <body>
-      <h1 class="m-3 text-center">Covid Purity Test</h1>
+      <h1 class="m-3 text-center">Penn Covid Purity Test</h1>
+      <div class="row justify-content-md-center">
+        <div class="col-6">
+          <p class="text-center text-muted">Before taking the Covid Purity Test, please enter the below information. All quiz takers will remain anonymous.</p>        </div>
+      </div>
       <div class="container">
         <form method="POST" action="/covidQuiz/">
           {% csrf_token %}
-           <label>School</label>
-           <!-- <input name="School" placeholder="school" /> -->
-           <select name="School" class="form-control">
-              <option>SAS</option>
-              <option>SEAS</option>
-              <option>Nursing</option>
-              <option>Wharton</option>
-              <option>Graduate</option>
-            </select>
+          <div class="row">
+            <label>School</label>
+            <select name="School" class="form-control">
+                <option>SAS</option>
+                <option>SEAS</option>
+                <option>Nursing</option>
+                <option>Wharton</option>
+                <option>Graduate</option>
+              </select>
+          </div>
+
+          <div class="row mt-3">
             <label>Year</label>
             <select name="Year" class="form-control">
               <option>Freshman</option>
@@ -30,7 +38,56 @@
               <option>Senior</option>
               <option>Graduate</option>
             </select>
-          <input class="btn btn-primary m-3" type="submit" value='Take Quiz'>
+          </div>
+
+          <div class="row mt-5">
+            <div class="form-group">
+              <p>Where will you be spending your Spring 2021 semester? </p>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="On Campus">
+                  <label class="form-check-label" for="inlineRadio1">On campus</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="Off Campus">
+                  <label class="form-check-label" for="inlineRadio2">Off campus</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="At Home">
+                  <label class="form-check-label" for="inlineRadio3">At home</label>
+                </div>
+            </div>
+          </div>
+
+          <div class="row mt-4">
+            <p>If you are on campus, where will you be staying? </p>
+            <select name="onCampusHousing" class="form-control">
+              QUAD = 'Quad', _('Quad')
+              HILL = 'Hill', _('Hill')
+              GREG = 'Gregory', _('Gregory')
+              ROD = 'Rodin', _('Rodin')
+              HARR = 'Harrison', _('Harrison')
+              HARN = 'Harnwell', _('Harnwell')
+              LAUD = 'Lauder', _('Lauder')
+              NCW = 'NCWH', _('New College House West')
+              STOU = 'Stouffer', _('Stouffer')
+              DUB = 'Dubois', _('Dubois')
+              NA = 'NA', _('NA')
+              <option>NA</option>
+              <option>Quad</option>
+              <option>Hill</option>
+              <option>Gregory</option>
+              <option>Rodin</option>
+              <option>Harrison</option>
+              <option>Harnwell</option>
+              <option>Lauder</option>
+              <option>NCWH</option>
+            </select>
+          </div>
+
+          <div class="text-center">
+            <input class="btn btn-primary m-5" type="submit" value='Take Quiz'>
+          </div>
+          
         </form>
       </div>
 

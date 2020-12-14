@@ -12,6 +12,7 @@ def covidQuiz_view(request):
         user = quizUser.objects.create(
             school=request.POST['School'],
             year_in_school=request.POST['Year'],
+            on_campus_housing=request.POST['onCampusHousing'],
             quiz=Quiz.objects.get(title="Covid Quiz")
         )
         # clear questions for new user, write covid quiz questions, store in questions
@@ -26,23 +27,25 @@ def dataVis_view(request,userID):
     userScore = 0
     if request.method == 'POST':
         currUser = quizUser.objects.get(id=userID)
-
+        
+        # calculates score for Covid Quiz
+        numQuestions = 0
+        score = 0
+        highestScore = 0
         for question in Question.objects.filter(quiz__title="Covid Quiz"):
-            print("question id is ",question.id)
             currresponse = Response.objects.create(
                 question = question,
                 userChoice = request.POST.get(str(question.id),'default'),
                 user = currUser
             )
-
             userChoice = currresponse.userChoice
-            userScore += convertToNum(userChoice)
-            print("user choice is: ", userChoice)
-            print("userScore is", userScore)
-        currUser.covidScore = userScore
-        print("after setting ", currUser.covidScore)
+            numQuestions += 1
+            highestScore += 3 * question.weight
+            score += convertToNum(userChoice) * question.weight
+        currUser.covidScore = int((score / highestScore) * 100)
+        currUser.save()
 
-    args = {'user': currUser, }
+    args = {'user': currUser}
     return render(request, 'dataVis.html',args)
 
 def write_covidQuiz_questions(userID):
@@ -51,116 +54,81 @@ def write_covidQuiz_questions(userID):
     
     q1 = Question.objects.create(
         quiz=covidQuiz,
-        body="Attend a social gathering of 3 - 5 people",
+        body="Attend a social gathering of 3-5 people including your usual contacts",
+        weight=2
     )
 
     q2 = Question.objects.create(
         quiz=covidQuiz,
-        body="Hang out with friends",
+        body="Attend a social gathering of 5-10 people including your usual contacts",
+        weight=3
     )
     q3 = Question.objects.create(
         quiz=covidQuiz,
-        body="Attend a social gathering of 5-10 people",
+        body="Attend a social gathering of 15+ people",
+        weight=4
     )
     q4 = Question.objects.create(
         quiz=covidQuiz,
-        body="Attend a social gathering of 15+ people",
+        body="Eat at a restaurant outdoors",
+        weight=2
     )
     q5 = Question.objects.create(
         quiz=covidQuiz,
-        body="Travel to Penn’s campus and did not quarantine",
+        body="Eat at a restaurant indoors",
+        weight=3
     )
     q6 = Question.objects.create(
         quiz=covidQuiz,
-        body="Eat at a restaurant (outdoors)",
+        body="Go grocery shopping",
+        weight=2
     )
     q7 = Question.objects.create(
         quiz=covidQuiz,
-        body="Eat at a restaurant (indoors)",
+        body="Go to a bar or clubbing",
+        weight=4
     )
     q8 = Question.objects.create(
         quiz=covidQuiz,
-        body="Attended a large protest/parade",
+        body="Go to the gym",
+        weight=4
     )
 
     q9 = Question.objects.create(
         quiz=covidQuiz,
-        body="Traveled on plane ",
+        body="Eat dinner at a friend's house",
+        weight=2
     )
     q10 = Question.objects.create(
         quiz=covidQuiz,
-        body="Went outside without a mask",
+        body="Hug or shake hands with a friend",
+        weight=3
     )
     q11 = Question.objects.create(
         quiz=covidQuiz,
-        body="Been to a bar",
+        body="Go to the hair salon or barbershop",
+        weight=2
     )
     q12 = Question.objects.create(
         quiz=covidQuiz,
-        body="Been clubbing",
+        body="Study with 2 or more friends outside",
+        weight=2
     )
     q13 = Question.objects.create(
         quiz=covidQuiz,
-        body="Hosted a 'COVID Party'",
+        body="Study with 2 or more friends inside",
+        weight=3
     )
     q14 = Question.objects.create(
         quiz=covidQuiz,
-        body="Tested positive for covid ",
+        body="Go on a walk with a friend who doesn't live with you",
+        weight=2
     )
     q15 = Question.objects.create(
         quiz=covidQuiz,
-        body="Went to a party ",
+        body="Watch a movie at the movie theater",
+        weight=4
     )
-    q16 = Question.objects.create(
-        quiz=covidQuiz,
-        body="Know a family member/friend who tested positive for covid ",
-    )
-    q17 = Question.objects.create(
-        quiz=covidQuiz,
-        body="Got arrested for breaking social distancing guidelines ",
-    )
-    q18 = Question.objects.create(
-        quiz=covidQuiz,
-        body="Went out in public knowing I had covid",
-    )
-    q19 = Question.objects.create(
-        quiz=covidQuiz,
-        body="Went to a party knowing I had covid",
-    )
-    q20 = Question.objects.create(
-        quiz=covidQuiz,
-        body="Hooked up with someone knowing I had covid",
-    )
-    q21 = Question.objects.create(
-        quiz=covidQuiz,
-        body="Hooked up with someone knowing they had Covid",
-    )
-    q22 = Question.objects.create(
-        quiz=covidQuiz,
-        body="Broke quarantine",
-    )
-    q23 = Question.objects.create(
-        quiz=covidQuiz,
-        body="Went out for Halloweekend",
-    )
-    q24 = Question.objects.create(
-        quiz=covidQuiz,
-        body="Refused to wear a mask when someone told you to",
-    )
-    q25 = Question.objects.create(
-        quiz=covidQuiz,
-        body="Hosted an apartment/house party",
-    )
-    q26 = Question.objects.create(
-        quiz=covidQuiz,
-        body="Got hospitalized from COVID",
-    )
-
-
-
-   
-
-
 
 def convertToNum(userChoice):
     if ( "optionNever" in userChoice):
