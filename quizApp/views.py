@@ -64,13 +64,6 @@ def dataVis_view(request,userID):
     args = {'user': currUser, 'labels':labels, 'data':data }
     return render(request, 'dataVis.html',args)
 
-def get_data(request, *args, **kwargs):
-    data = {
-        "sales": 100,
-        "customers": 10,
-    }
-    return JsonResponse(data)
-
     
 
 def write_covidQuiz_questions(userID):
