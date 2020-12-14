@@ -39,12 +39,11 @@ def dataVis_view(request,userID):
             userScore += convertToNum(userChoice)
             print("user choice is: ", userChoice)
             print("userScore is", userScore)
-        
-            
-               
-                
+        currUser.covidScore = userScore
+        print("after setting ", currUser.covidScore)
 
-    return render(request, 'dataVis.html')
+    args = {'user': currUser, }
+    return render(request, 'dataVis.html',args)
 
 def write_covidQuiz_questions(userID):
     currUser = quizUser.objects.get(id=userID)
@@ -59,17 +58,122 @@ def write_covidQuiz_questions(userID):
         quiz=covidQuiz,
         body="Hang out with friends",
     )
+    q3 = Question.objects.create(
+        quiz=covidQuiz,
+        body="Attend a social gathering of 5-10 people",
+    )
+    q4 = Question.objects.create(
+        quiz=covidQuiz,
+        body="Attend a social gathering of 15+ people",
+    )
+    q5 = Question.objects.create(
+        quiz=covidQuiz,
+        body="Travel to Penn’s campus and did not quarantine",
+    )
+    q6 = Question.objects.create(
+        quiz=covidQuiz,
+        body="Eat at a restaurant (outdoors)",
+    )
+    q7 = Question.objects.create(
+        quiz=covidQuiz,
+        body="Eat at a restaurant (indoors)",
+    )
+    q8 = Question.objects.create(
+        quiz=covidQuiz,
+        body="Attended a large protest/parade",
+    )
+
+    q9 = Question.objects.create(
+        quiz=covidQuiz,
+        body="Traveled on plane ",
+    )
+    q10 = Question.objects.create(
+        quiz=covidQuiz,
+        body="Went outside without a mask",
+    )
+    q11 = Question.objects.create(
+        quiz=covidQuiz,
+        body="Been to a bar",
+    )
+    q12 = Question.objects.create(
+        quiz=covidQuiz,
+        body="Been clubbing",
+    )
+    q13 = Question.objects.create(
+        quiz=covidQuiz,
+        body="Hosted a 'COVID Party'",
+    )
+    q14 = Question.objects.create(
+        quiz=covidQuiz,
+        body="Tested positive for covid ",
+    )
+    q15 = Question.objects.create(
+        quiz=covidQuiz,
+        body="Went to a party ",
+    )
+    q16 = Question.objects.create(
+        quiz=covidQuiz,
+        body="Know a family member/friend who tested positive for covid ",
+    )
+    q17 = Question.objects.create(
+        quiz=covidQuiz,
+        body="Got arrested for breaking social distancing guidelines ",
+    )
+    q18 = Question.objects.create(
+        quiz=covidQuiz,
+        body="Went out in public knowing I had covid",
+    )
+    q19 = Question.objects.create(
+        quiz=covidQuiz,
+        body="Went to a party knowing I had covid",
+    )
+    q20 = Question.objects.create(
+        quiz=covidQuiz,
+        body="Hooked up with someone knowing I had covid",
+    )
+    q21 = Question.objects.create(
+        quiz=covidQuiz,
+        body="Hooked up with someone knowing they had Covid",
+    )
+    q22 = Question.objects.create(
+        quiz=covidQuiz,
+        body="Broke quarantine",
+    )
+    q23 = Question.objects.create(
+        quiz=covidQuiz,
+        body="Went out for Halloweekend",
+    )
+    q24 = Question.objects.create(
+        quiz=covidQuiz,
+        body="Refused to wear a mask when someone told you to",
+    )
+    q25 = Question.objects.create(
+        quiz=covidQuiz,
+        body="Hosted an apartment/house party",
+    )
+    q26 = Question.objects.create(
+        quiz=covidQuiz,
+        body="Got hospitalized from COVID",
+    )
+
+
+
+   
+
+
 
 def convertToNum(userChoice):
     if ( "optionNever" in userChoice):
-        numericalChoice = 0
+        numericalChoice = 3
     elif("optionOncePM" in userChoice):
-        numericalChoice = 1
-    elif ("optionOncePW" in userChoice):
         numericalChoice = 2
+    elif ("optionOncePW" in userChoice):
+        numericalChoice = 1
         print("this is if statement\n")
-    else:
+    elif("optionEveryday" in userChoice):
         numericalChoice = 0
+    else:
+        numericalChoice = 3
         
     print(userChoice," the number is ",numericalChoice)
     return numericalChoice
