@@ -9,7 +9,7 @@ from django.http import JsonResponse
 def home_view(request):
     return render(request, 'home.html', {})
 
-def covidQuiz_view(request):
+def covidQuiz_view(request,):
     # will only write questions if a user is made --- change later?? not super safe
     if request.method == 'POST':
         user = quizUser.objects.create(
@@ -155,9 +155,6 @@ def write_covidQuiz_questions(userID):
         weight=4
     )
 
-
-
-
 def convertToNum(userChoice):
     if ( "optionNever" in userChoice):
         numericalChoice = 3
@@ -173,3 +170,10 @@ def convertToNum(userChoice):
         
     print(userChoice," the number is ",numericalChoice)
     return numericalChoice
+
+def get_data(request, *args, **kwargs):
+    data = {
+        "sales": 100,
+        "customers": 10,
+    }
+    return JsonResponse(data)
