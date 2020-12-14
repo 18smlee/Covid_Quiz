@@ -1,6 +1,9 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.http import JsonResponse
 from quizApp.models import quizUser, Quiz, Question,Response
 from django import forms
+from django.http import JsonResponse
+#from chartit import DataPool, Chart
 
 # Create your views here.
 def home_view(request):
@@ -37,13 +40,35 @@ def dataVis_view(request,userID):
 
             userChoice = currresponse.userChoice
             userScore += convertToNum(userChoice)
+
             print("user choice is: ", userChoice)
             print("userScore is", userScore)
+
         currUser.covidScore = userScore
+        currUser.save()
         print("after setting ", currUser.covidScore)
 
-    args = {'user': currUser, }
+
+        labels = []
+        data = []
+        queryset = quizUser.objects.filter(covidScore__lte = currUser.covidScore)
+        for user in queryset:
+            labels.append(user.id)
+            print("in query for loop")
+            data.append(user.covidScore)
+
+
+    args = {'user': currUser, 'labels':labels, 'data':data }
     return render(request, 'dataVis.html',args)
+
+def get_data(request, *args, **kwargs):
+    data = {
+        "sales": 100,
+        "customers": 10,
+    }
+    return JsonResponse(data)
+
+    
 
 def write_covidQuiz_questions(userID):
     currUser = quizUser.objects.get(id=userID)
@@ -155,10 +180,6 @@ def write_covidQuiz_questions(userID):
         quiz=covidQuiz,
         body="Got hospitalized from COVID",
     )
-
-
-
-   
 
 
 
