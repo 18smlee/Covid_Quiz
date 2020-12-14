@@ -52,12 +52,12 @@ def write_covidQuiz_questions(userID):
     
     q1 = Question.objects.create(
         quiz=covidQuiz,
-        body="How often do you eat in a restaurant outside",
+        body="Attend a social gathering of 3 - 5 people",
     )
 
     q2 = Question.objects.create(
         quiz=covidQuiz,
-        body="How outside",
+        body="Hang out with friends",
     )
 
 def convertToNum(userChoice):
@@ -69,7 +69,7 @@ def convertToNum(userChoice):
         numericalChoice = 2
         print("this is if statement\n")
     else:
-        numericalChoice = 3
+        numericalChoice = 0
         
     print(userChoice," the number is ",numericalChoice)
     return numericalChoice
