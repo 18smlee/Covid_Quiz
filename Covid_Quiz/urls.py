@@ -16,12 +16,13 @@ Including another URLconf
 from django.contrib import admin
 from django.conf.urls import url
 from django.urls import path
-from quizApp.views import home_view, covidQuiz_view, dataVis_view
+from quizApp.views import home_view, covidQuiz_view, dataVis_view, get_data
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', home_view, name="home_view"),
+    url(r'^api/data/$', get_data, name='api-data'),
     path('covidQuiz/', covidQuiz_view, name="covidQuiz_view"),
     path('dataVis/<int:userID>', dataVis_view, name='dataVis_view')
 ]
