@@ -10,28 +10,31 @@
   </head>
   <body>
       <h1 class="m-3 text-center">Covid Quiz Page</h1>
-     
-          <form method="POST" action="/dataVis/">
+      
+          <form method="POST" action= "{% url 'dataVis_view' user.id%}">
             {% csrf_token %}
             {% for question in questions %}
             <div class="row">
               <div class="form-check form-check-inline ml-3">
-                <input class="form-check-input" type="checkbox" id="neverCheckBox" value="optionNever">
+                <input class="form-check-input" type="radio" name={{question.id}} id="neverCheckBox" value="optionNever">
+                <label class="form-check-label" for="neverCheckBox">Never, {{question.id}}</label>
               </div>
               <div class="form-check form-check-inline ml-3">
-                <input class="form-check-input" type="checkbox" id="oncePMCheckBox" value="optionOncePM">
+                <input class="form-check-input" type="radio" name={{question.id}} id="oncePMCheckBox" value="optionOncePM">
+                <label class="form-check-label" for="oncePMCheckBox">Once PM</label>
               </div>
               <div class="form-check form-check-inline ml-3">
-                <input class="form-check-input" type="checkbox" id="oncePWCheckBox" value="optionOncePW">
+                <input class="form-check-input" type="radio" name={{question.id}} id="oncePWCheckBox" value="optionOncePW">
+                <label class="form-check-label" for="oncePMCheckBox">Once PW</label>
               </div>
               <div class="form-check form-check-inline ml-3">
-                <input class="form-check-input" type="checkbox" id="everydayCheckBox" value="optionEveryday">
+                <input class="form-check-input" type="radio" name={{question.id}} id="everydayCheckBox" value="optionEveryday">
               </div>
               <label class="form-label ml-3">{{question.body}}</label>
             </div>
             {% endfor %}
             <div class="row">
-              <input class="btn btn-primary m-3" type="submit" value='Calculate Score'>
+              <input class="btn btn-primary m-3" name="submit_button" type="submit" value='Calculate Score'>
             </div>
           </form>
 

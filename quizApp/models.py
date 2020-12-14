@@ -49,10 +49,12 @@ class Response(models.Model):
         ONCE_PW = 'ONCE_PW', _('Once/few times per week')
         EVERYDAY = 'EVERYDAY', _('Everyday')
 
-    answer = models.CharField(
+
+    userChoice = models.CharField(
         max_length=10,
         choices=Answer.choices,
         default=Answer.NEVER
     )
+
     user = models.ForeignKey(quizUser, on_delete=models.CASCADE)
     question = models.ForeignKey(Question, on_delete=models.CASCADE)

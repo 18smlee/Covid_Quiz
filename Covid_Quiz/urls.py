@@ -17,10 +17,12 @@ from django.contrib import admin
 from django.urls import path
 from quizApp.views import home_view, covidQuiz_view, dataVis_view
 
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', home_view, name="home_view"),
 
     path('covidQuiz/', covidQuiz_view, name="covidQuiz_view"),
-    path('dataVis/', dataVis_view, name="dataVis_view")
+    path('dataVis/<int:userID>', dataVis_view, name='dataVis_view')
 ]
+  
