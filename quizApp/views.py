@@ -27,25 +27,36 @@ def dataVis_view(request,userID):
     userScore = 0
     if request.method == 'POST':
         currUser = quizUser.objects.get(id=userID)
-        
-        # calculates score for Covid Quiz
-        numQuestions = 0
-        score = 0
-        highestScore = 0
+
         for question in Question.objects.filter(quiz__title="Covid Quiz"):
+            print("question id is ",question.id)
             currresponse = Response.objects.create(
                 question = question,
                 userChoice = request.POST.get(str(question.id),'default'),
                 user = currUser
             )
-            userChoice = currresponse.userChoice
-            numQuestions += 1
-            highestScore += 3 * question.weight
-            score += convertToNum(userChoice) * question.weight
-        currUser.covidScore = int((score / highestScore) * 100)
-        currUser.save()
 
-    args = {'user': currUser}
+            userChoice = currresponse.userChoice
+            userScore += convertToNum(userChoice)
+
+            print("user choice is: ", userChoice)
+            print("userScore is", userScore)
+
+        currUser.covidScore = userScore
+        currUser.save()
+        print("after setting ", currUser.covidScore)
+
+
+        labels = []
+        data = []
+        queryset = quizUser.objects.filter(covidScore__lte = currUser.covidScore)
+        for user in queryset:
+            labels.append(user.id)
+            print("in query for loop")
+            data.append(user.covidScore)
+
+
+    args = {'user': currUser, 'labels':labels, 'data':data }
     return render(request, 'dataVis.html',args)
 
 def write_covidQuiz_questions(userID):
