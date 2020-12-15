@@ -124,11 +124,10 @@ def dataVis_view(request,userID):
         nurs_above50 = quizUser.objects.filter(covidScore__gt = 50).filter(school = 'Nursing').count()
         whar_above50 = quizUser.objects.filter(covidScore__gt = 50).filter(school = 'Wharton').count()
         
-        
-        above_year_pieData.append(sas_above50)
-        above_year_pieData.append(seas_above50)
-        above_year_pieData.append(nurs_above50)
-        above_year_pieData.append(whar_above50)
+        above_school_pieData.append(sas_above50)
+        above_school_pieData.append(seas_above50)
+        above_school_pieData.append(nurs_above50)
+        above_school_pieData.append(whar_above50)
 
         # location
         above_loc_pieData = []
@@ -143,13 +142,16 @@ def dataVis_view(request,userID):
     args = {'user': currUser, 
             'barLabels':barLabels, 
             'barData':barData,
+
             'below_year_pieData':below_year_pieData, 
             'below_school_pieData':below_school_pieData,
             'below_loc_pieData':below_loc_pieData,
+
             'above_year_pieData':above_year_pieData, 
             'above_school_pieData':above_school_pieData,
             'above_loc_pieData':above_loc_pieData
             }
+
     return render(request, 'dataVis.html', args)
 
 def write_covidQuiz_questions(userID):
