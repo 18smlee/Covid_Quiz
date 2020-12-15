@@ -25,6 +25,9 @@ def covidQuiz_view(request,):
 
 def dataVis_view(request,userID):
     userScore = 0
+    numQuestions = 0
+    highestScore = 0
+    score = 0
     if request.method == 'POST':
         currUser = quizUser.objects.get(id=userID)
 
@@ -37,26 +40,63 @@ def dataVis_view(request,userID):
             )
 
             userChoice = currresponse.userChoice
-            userScore += convertToNum(userChoice)
-
-            print("user choice is: ", userChoice)
-            print("userScore is", userScore)
-
-        currUser.covidScore = userScore
+            numQuestions += 1
+            highestScore += 3 * question.weight
+            score += convertToNum(userChoice) * question.weight
+        currUser.covidScore = int((score / highestScore) * 100)
         currUser.save()
-        print("after setting ", currUser.covidScore)
+
+        print("after saving ", currUser.covidScore)
+        print("user choice is: ", userChoice)
+        
+        totalUsers = quizUser.objects.all().count()
+        #BAR GRAPH DATA
+        barData =[]
+        barLabels =[20,40,60,80,100]
+        numUsers20 = quizUser.objects.filter(covidScore__lt = 20).count()
+        barData.append((numUsers20/totalUsers)*100)
+        numUsers40= quizUser.objects.filter(covidScore__range = (20,40)).count()
+        barData.append((numUsers40/totalUsers)*100)
+        numUsers60= quizUser.objects.filter(covidScore__range = (40,60)).count()
+        barData.append((numUsers60/totalUsers)*100)
+        numUsers80= quizUser.objects.filter(covidScore__range = (60,80)).count()
+        barData.append((numUsers80/totalUsers)*100)
+        numUsers100= quizUser.objects.filter(covidScore__range = (80,100)).count()
+        barData.append((numUsers100/totalUsers)*100)
+        print(barData)
+        #END OF BAR GRAPH DATA
 
 
-        labels = []
-        data = []
-        queryset = quizUser.objects.filter(covidScore__lte = currUser.covidScore)
-        for user in queryset:
-            labels.append(user.id)
-            print("in query for loop")
-            data.append(user.covidScore)
+        #STUDENTS WITH A SCORE BELOW 50%
+        pie_below_50_data_year =[]
+        #pie_below_50_labels[]
+        fresh_below50 = quizUser.objects.filter(covidScore__lt = 50).filter(year_in_school = 'Freshman').count()
+        print(fresh_below50)
+        soph_below50 = quizUser.objects.filter(covidScore__lt = 50).filter(year_in_school = 'Sophomore').count()
+        print(soph_below50)
+        junior_below50 = quizUser.objects.filter(covidScore__lt = 50).filter(year_in_school = 'Junior').count()
+        print(junior_below50)
+        senior_below50 = quizUser.objects.filter(covidScore__lt = 50).filter(year_in_school = 'Senior').count()
+        print(senior_below50)
+        
+        pie_below_50_data_year.append(fresh_below50)
+        pie_below_50_data_year.append(soph_below50)
+        pie_below_50_data_year.append(junior_below50)
+        pie_below_50_data_year.append(senior_below50)
+        print(pie_below_50_data_year)
+        #numFresh_below50 = users_below50.filter()
 
 
-    args = {'user': currUser, 'labels':labels, 'data':data }
+        #old stuff for testing intial graphs
+        # queryset = quizUser.objects.filter(covidScore__lte = currUser.covidScore)
+        # for user in queryset:
+        #     labels.append(user.id)
+        #     print("in query for loop")
+        #     data.append(user.covidScore)
+        # labels = barLabels
+        
+        
+    args = {'user': currUser, 'barLabels':barLabels, 'barData':barData,'pie_below_50_data_year':pie_below_50_data_year }
     return render(request, 'dataVis.html',args)
 
 def write_covidQuiz_questions(userID):
