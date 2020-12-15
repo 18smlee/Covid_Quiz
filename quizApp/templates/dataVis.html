@@ -1,19 +1,20 @@
 {% extends 'base.html' %}
 <script>
     {% block jquery %}
-    Chart.defaults.global.legend.display = false;
+
+    // Chart.defaults.global.legend.display = false;
+
     var endpoint = '/api/data/'
     var barData = eval("{{barData}}")
-    console.log(barData)
     var barLabels =eval("{{barLabels}}")
-    console.log(barLabels)
     var pie_below_50_data_year = eval("{{pie_below_50_data_year}}")
-    console.log("hi")
-    console.log(pie_below_50_data_year)
     
-        var ctx = document.getElementById("myChart");
-        var ctx2 = document.getElementById("myChart2");
-        var myChart = new Chart(ctx2, {
+    var ctx = document.getElementById("scores_bChart");
+    var ctx2 = document.getElementById("below_year_pChart");
+    var ctx3 = document.getElementById("below_school_pChart");
+    var ctx4 = document.getElementById("below_loc_pChart");
+
+        var myChart = new Chart(ctx, {
             type: 'bar',
             data: {
                 labels: barLabels,
@@ -50,25 +51,65 @@
             }
         });
     
-        var polarChart = new Chart(ctx, {
-        type: 'doughnut',
-        data: {
-            labels: ["Freshman", "Sophomore", "Junior", "Senior"],
-            datasets: [
-                {
-                label: "Population (millions)",
-                backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
-                data: pie_below_50_data_year
+        var below_year_pChart = new Chart(ctx2, {
+            type: 'doughnut',
+            data: {
+                labels: ["Freshman", "Sophomore", "Junior", "Senior"],
+                datasets: [
+                    {
+                    label: "Population (millions)",
+                    backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
+                    data: pie_below_50_data_year
+                    }
+                ]
+                },
+                options: {
+                title: {
+                    display: true,
+                    text: 'Students by Year'
                 }
-            ]
-            },
-            options: {
-            title: {
-                display: true,
-                text: 'Predicted world population (millions) in 2050'
-            }
-            }
-    });
+                }
+        });
+
+        var below_school_pChart = new Chart(ctx3, {
+            type: 'doughnut',
+            data: {
+                labels: ["Freshman", "Sophomore", "Junior", "Senior"],
+                datasets: [
+                    {
+                    label: "Population (millions)",
+                    backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
+                    data: pie_below_50_data_year
+                    }
+                ]
+                },
+                options: {
+                title: {
+                    display: true,
+                    text: 'Students By School'
+                }
+                }
+        });
+
+        var below_loc_pChart = new Chart(ctx4, {
+            type: 'doughnut',
+            data: {
+                labels: ["Freshman", "Sophomore", "Junior", "Senior"],
+                datasets: [
+                    {
+                    label: "Population (millions)",
+                    backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
+                    data: pie_below_50_data_year
+                    }
+                ]
+                },
+                options: {
+                title: {
+                    display: true,
+                    text: 'Students By School'
+                }
+                }
+        });
     
 {% endblock %}
 </script>
@@ -87,18 +128,26 @@
     </head>
     <body>
         {% block content %}
-        <h1 class="m-3 text-center">Data Vis Page</h1>
-        <div class='row'>
-            <div class='col-sm-12'>
-                <h1>Your Score is: {{user.covidScore}}</h1>
-                <div class='col-sm-6'></div>
-                <h2>Here is how it compares to others:</h2>
-                <div class='col-sm-6'>
-                <canvas id="myChart" width="400" height="400"></canvas>
+        <h1 class="m-5 text-center">Your Score</h1>
+        <h1 class= "m-5 text-center font-weight-bold">{{user.covidScore}}</h1>
+        <div class='row m-3'>
+            <div class='col-sm-6'>
+                <canvas id="scores_bChart" width="400" height="400"></canvas>
             </div>
             <div class='col-sm-6'>
-                <canvas id="myChart2" width="400" height="400"></canvas>
+                <p>Most Common Activities</p>
             </div>
+        </div>
+        <div class='row m-3'>
+            <h2 class ='m-3 text-center'>Students with Scores Below 50</h2>
+            <div class='col-sm-4'>
+                <canvas id="below_year_pChart" width="200" height="200"></canvas>
+            </div>
+            <div class='col-sm-4'>
+                <canvas id="below_school_pChart" width="200" height="200"></canvas>
+            </div>
+            <div class='col-sm-4'>
+                <canvas id="below_loc_pChart" width="200" height="200"></canvas>
             </div>
         </div>
         {% endblock content %}

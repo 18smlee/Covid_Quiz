@@ -82,7 +82,6 @@ class Response(models.Model):
         ONCE_PW = 'ONCE_PW', _('Once/few times per week')
         EVERYDAY = 'EVERYDAY', _('Everyday')
 
-
     userChoice = models.CharField(
         max_length=10,
         choices=Answer.choices,
