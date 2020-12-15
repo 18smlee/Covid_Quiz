@@ -13,8 +13,10 @@ def covidQuiz_view(request,):
             school=request.POST['School'],
             year_in_school=request.POST['Year'],
             on_campus_housing=request.POST['onCampusHousing'],
+            college_loc  = request.POST.get('collegeLocation','default'),
             quiz=Quiz.objects.get(title="Covid Quiz")
         )
+        print("college location is", user.college_loc)
         # clear questions for new user, write covid quiz questions, store in questions
         Question.objects.filter(quiz__title="Covid Quiz").delete()
         write_covidQuiz_questions(user.id)
