@@ -16,7 +16,7 @@ def covidQuiz_view(request,):
             college_loc  = request.POST.get('collegeLocation','default'),
             quiz=Quiz.objects.get(title="Covid Quiz")
         )
-        print("college location is", user.college_loc)
+
         # clear questions for new user, write covid quiz questions, store in questions
         Question.objects.filter(quiz__title="Covid Quiz").delete()
         write_covidQuiz_questions(user.id)
@@ -34,7 +34,6 @@ def dataVis_view(request,userID):
         currUser = quizUser.objects.get(id=userID)
 
         for question in Question.objects.filter(quiz__title="Covid Quiz"):
-            print("question id is ",question.id)
             currresponse = Response.objects.create(
                 question = question,
                 userChoice = request.POST.get(str(question.id),'default'),
@@ -48,9 +47,6 @@ def dataVis_view(request,userID):
         currUser.covidScore = int((score / highestScore) * 100)
         currUser.save()
 
-        print("after saving ", currUser.covidScore)
-        print("user choice is: ", userChoice)
-        
         totalUsers = quizUser.objects.all().count()
 
         #--------------------------------------SCORE GRAPH DATA--------------------------------------
@@ -243,11 +239,9 @@ def convertToNum(userChoice):
         numericalChoice = 2
     elif ("optionOncePW" in userChoice):
         numericalChoice = 1
-        print("this is if statement\n")
     elif("optionEveryday" in userChoice):
         numericalChoice = 0
     else:
         numericalChoice = 3
         
-    print(userChoice," the number is ",numericalChoice)
     return numericalChoice
