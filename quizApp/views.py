@@ -140,7 +140,6 @@ def dataVis_view(request,userID):
         above_loc_pieData.append(offCampus_above50)
         above_loc_pieData.append(atHome_aboves50)
 
-
     args = {'user': currUser, 
             'barLabels':barLabels, 
             'barData':barData,

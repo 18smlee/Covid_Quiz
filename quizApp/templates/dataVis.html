@@ -28,6 +28,7 @@
     var ctx6 = document.getElementById("above_school_pChart");
     var ctx7 = document.getElementById("above_loc_pChart");
 
+    //------------------------ SCORE BAR CHART ------------------------
         var myChart = new Chart(ctx, {
             type: 'bar',
             data: {
@@ -64,7 +65,8 @@
                 }
             }
         });
-    
+
+        //------------------------ BELOW PIE CHARTS ------------------------
         var below_year_pChart = new Chart(ctx2, {
             type: 'doughnut',
             data: {
@@ -124,6 +126,68 @@
                     }
                 }
         });
+
+        //------------------------ ABOVE PIE CHARTS ------------------------
+
+        var above_year_pChart = new Chart(ctx5, {
+            type: 'doughnut',
+            data: {
+                labels: ["Freshman", "Sophomore", "Junior", "Senior"],
+                datasets: [
+                    {
+                    label: "Number of Students",
+                    backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
+                    data: above_year_pieData
+                    }
+                ]
+                },
+                options: {
+                title: {
+                    display: true,
+                    text: 'Students by Year'
+                    }
+                }
+        });
+
+        var above_school_pChart = new Chart(ctx6, {
+            type: 'doughnut',
+            data: {
+                labels:  ["SAS", "SEAS", "Nursing", "Wharton"],
+                datasets: [
+                    {
+                    label: "Number of Students",
+                    backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
+                    data: above_school_pieData
+                    }
+                ]
+                },
+                options: {
+                title: {
+                    display: true,
+                    text: 'Students By School'
+                    }
+                }
+        });
+
+        var above_loc_pChart = new Chart(ctx7, {
+            type: 'doughnut',
+            data: {
+                labels: ["On Campus", "Off Campus", "At Home"],
+                datasets: [
+                    {
+                    label: "Number of Students",
+                    backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
+                    data: above_loc_pieData
+                    }
+                ]
+                },
+                options: {
+                title: {
+                    display: true,
+                    text: 'Students By Location'
+                    }
+                }
+        });
     
 {% endblock %}
 </script>
@@ -165,7 +229,7 @@
         </div>
 
         <div class='row m-3'>
-            <!-- <h2 class ='m-3 text-center'>Students with Scores Above 50</h2> -->
+            <h2 class ='m-3 text-center'>Students with Scores Above 50</h2>
             <div class='col-sm-4'>
                 <canvas id="above_year_pChart" width="200" height="200"></canvas>
             </div>
