@@ -34,7 +34,7 @@
             data: {
                 labels: barLabels,
                 datasets: [{
-                    label: 'People with higher scores',
+                    label: "Percentage of Students with Score in Range",
                     data: barData,
                     backgroundColor: [
                         'rgba(255, 99, 132, 0.2)',
@@ -56,10 +56,26 @@
                 }]
             },
             options: {
+                legend: {
+                    display: false
+                },
                 scales: {
                     yAxes: [{
                         ticks: {
                             beginAtZero:true
+                        },
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Users'
+                        }
+                    }],
+                    xAxes: [{
+                        ticks: {
+                            beginAtZero:true
+                        },
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Score Ranges'
                         }
                     }]
                 }
@@ -208,6 +224,14 @@
         {% block content %}
         <h1 class="m-5 text-center">Your Score</h1>
         <h1 class= "m-5 text-center font-weight-bold">{{user.covidScore}}</h1>
+
+        <div class="card" style="width: 18rem;">
+            <div class="card-body">
+              <h5 class="card-title">Your Score</h5>
+              <h1 class= "m-5 card-text-center">{{user.covidScore}}</h1>
+            </div>
+          </div>
+          
         <div class='row m-3'>
             <div class="row justify-content-md-center">
                 <div class='col col-sm-4'>
