@@ -26,3 +26,8 @@ After your score is calculated, you can compare your score to other Penn student
 5. Some questions weigh heigher due to the severity of the behavior mentioned in the question.
 5. Once you have filled out the questions you can press the "Calculate Score" button to find out how pure you are on a scale of 1-100
 6. You will also be able to see some comparisons and visualizations which are based off the answers the website has received!
+
+
+## Video of it working
+
+https://youtu.be/c00aECuSSPI 
