@@ -6,6 +6,8 @@ class Quiz(models.Model):
     title = models.CharField(max_length=200)
     def __str__(self):
         return self.title
+    def __eq__(self, otherTitle):
+        return self.title == otherTitle
 
 class quizUser(models.Model):
     class pennSchool(models.TextChoices):
@@ -87,6 +89,5 @@ class Response(models.Model):
         choices=Answer.choices,
         default=Answer.NEVER
     )
-
     user = models.ForeignKey(quizUser, on_delete=models.CASCADE)
     question = models.ForeignKey(Question, on_delete=models.CASCADE)

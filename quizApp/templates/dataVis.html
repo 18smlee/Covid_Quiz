@@ -7,12 +7,26 @@
     var endpoint = '/api/data/'
     var barData = eval("{{barData}}")
     var barLabels =eval("{{barLabels}}")
-    var pie_below_50_data_year = eval("{{pie_below_50_data_year}}")
+    
+    var below_year_pieData = eval("{{below_year_pieData}}")
+    var below_school_pieData = eval("{{below_school_pieData}}")
+    var below_loc_pieData = eval("{{below_loc_pieData}}")
+
+    var above_year_pieData = eval("{{above_year_pieData}}")
+    var above_school_pieData = eval("{{above_school_pieData}}")
+    var above_loc_pieData = eval("{{above_loc_pieData}}")
+
+    console.log(below_loc_pieData)
     
     var ctx = document.getElementById("scores_bChart");
+
     var ctx2 = document.getElementById("below_year_pChart");
     var ctx3 = document.getElementById("below_school_pChart");
     var ctx4 = document.getElementById("below_loc_pChart");
+
+    var ctx5 = document.getElementById("above_year_pChart");
+    var ctx6 = document.getElementById("above_school_pChart");
+    var ctx7 = document.getElementById("above_loc_pChart");
 
         var myChart = new Chart(ctx, {
             type: 'bar',
@@ -57,9 +71,9 @@
                 labels: ["Freshman", "Sophomore", "Junior", "Senior"],
                 datasets: [
                     {
-                    label: "Population (millions)",
+                    label: "Number of Students",
                     backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
-                    data: pie_below_50_data_year
+                    data: below_year_pieData
                     }
                 ]
                 },
@@ -67,19 +81,19 @@
                 title: {
                     display: true,
                     text: 'Students by Year'
-                }
+                    }
                 }
         });
 
         var below_school_pChart = new Chart(ctx3, {
             type: 'doughnut',
             data: {
-                labels: ["Freshman", "Sophomore", "Junior", "Senior"],
+                labels:  ["SAS", "SEAS", "Nursing", "Wharton"],
                 datasets: [
                     {
-                    label: "Population (millions)",
+                    label: "Number of Students",
                     backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
-                    data: pie_below_50_data_year
+                    data: below_school_pieData
                     }
                 ]
                 },
@@ -87,27 +101,27 @@
                 title: {
                     display: true,
                     text: 'Students By School'
-                }
+                    }
                 }
         });
 
         var below_loc_pChart = new Chart(ctx4, {
             type: 'doughnut',
             data: {
-                labels: ["Freshman", "Sophomore", "Junior", "Senior"],
+                labels: ["On Campus", "Off Campus", "At Home"],
                 datasets: [
                     {
-                    label: "Population (millions)",
+                    label: "Number of Students",
                     backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
-                    data: pie_below_50_data_year
+                    data: below_loc_pieData
                     }
                 ]
                 },
                 options: {
                 title: {
                     display: true,
-                    text: 'Students By School'
-                }
+                    text: 'Students By Location'
+                    }
                 }
         });
     
@@ -131,11 +145,10 @@
         <h1 class="m-5 text-center">Your Score</h1>
         <h1 class= "m-5 text-center font-weight-bold">{{user.covidScore}}</h1>
         <div class='row m-3'>
-            <div class='col-sm-6'>
-                <canvas id="scores_bChart" width="400" height="400"></canvas>
-            </div>
-            <div class='col-sm-6'>
-                <p>Most Common Activities</p>
+            <div class="row justify-content-md-center">
+                <div class='col col-sm-4'>
+                    <canvas id="scores_bChart" width="100" height="100"></canvas>
+                </div>
             </div>
         </div>
         <div class='row m-3'>
@@ -148,6 +161,19 @@
             </div>
             <div class='col-sm-4'>
                 <canvas id="below_loc_pChart" width="200" height="200"></canvas>
+            </div>
+        </div>
+
+        <div class='row m-3'>
+            <!-- <h2 class ='m-3 text-center'>Students with Scores Above 50</h2> -->
+            <div class='col-sm-4'>
+                <canvas id="above_year_pChart" width="200" height="200"></canvas>
+            </div>
+            <div class='col-sm-4'>
+                <canvas id="above_school_pChart" width="200" height="200"></canvas>
+            </div>
+            <div class='col-sm-4'>
+                <canvas id="above_loc_pChart" width="200" height="200"></canvas>
             </div>
         </div>
         {% endblock content %}

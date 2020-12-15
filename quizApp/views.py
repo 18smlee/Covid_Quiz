@@ -52,54 +52,106 @@ def dataVis_view(request,userID):
         print("user choice is: ", userChoice)
         
         totalUsers = quizUser.objects.all().count()
-        #BAR GRAPH DATA
+
+        #--------------------------------------SCORE GRAPH DATA--------------------------------------
         barData =[]
         barLabels =[20,40,60,80,100]
         numUsers20 = quizUser.objects.filter(covidScore__lt = 20).count()
-        barData.append((numUsers20/totalUsers)*100)
         numUsers40= quizUser.objects.filter(covidScore__range = (20,40)).count()
-        barData.append((numUsers40/totalUsers)*100)
         numUsers60= quizUser.objects.filter(covidScore__range = (40,60)).count()
-        barData.append((numUsers60/totalUsers)*100)
         numUsers80= quizUser.objects.filter(covidScore__range = (60,80)).count()
-        barData.append((numUsers80/totalUsers)*100)
         numUsers100= quizUser.objects.filter(covidScore__range = (80,100)).count()
+
+        barData.append((numUsers20/totalUsers)*100)
+        barData.append((numUsers40/totalUsers)*100)
+        barData.append((numUsers60/totalUsers)*100)
+        barData.append((numUsers80/totalUsers)*100)
         barData.append((numUsers100/totalUsers)*100)
-        print(barData)
-        #END OF BAR GRAPH DATA
 
-
-        #STUDENTS WITH A SCORE BELOW 50%
-        pie_below_50_data_year =[]
-        #pie_below_50_labels[]
+        #--------------------------------------STUDENTS WITH A SCORE BELOW 50%--------------------------------------
+        # year
+        below_year_pieData = []
         fresh_below50 = quizUser.objects.filter(covidScore__lt = 50).filter(year_in_school = 'Freshman').count()
-        print(fresh_below50)
         soph_below50 = quizUser.objects.filter(covidScore__lt = 50).filter(year_in_school = 'Sophomore').count()
-        print(soph_below50)
         junior_below50 = quizUser.objects.filter(covidScore__lt = 50).filter(year_in_school = 'Junior').count()
-        print(junior_below50)
         senior_below50 = quizUser.objects.filter(covidScore__lt = 50).filter(year_in_school = 'Senior').count()
-        print(senior_below50)
         
-        pie_below_50_data_year.append(fresh_below50)
-        pie_below_50_data_year.append(soph_below50)
-        pie_below_50_data_year.append(junior_below50)
-        pie_below_50_data_year.append(senior_below50)
-        print(pie_below_50_data_year)
-        #numFresh_below50 = users_below50.filter()
+        below_year_pieData.append(fresh_below50)
+        below_year_pieData.append(soph_below50)
+        below_year_pieData.append(junior_below50)
+        below_year_pieData.append(senior_below50)
+        
+        # school
+        below_school_pieData = []
+        sas_below50 = quizUser.objects.filter(covidScore__lt = 50).filter(school = 'SAS').count()
+        seas_below50 = quizUser.objects.filter(covidScore__lt = 50).filter(school = 'SEAS').count()
+        nurs_below50 = quizUser.objects.filter(covidScore__lt = 50).filter(school = 'Nursing').count()
+        whar_below50 = quizUser.objects.filter(covidScore__lt = 50).filter(school = 'Wharton').count()
+        
+        
+        below_school_pieData.append(sas_below50)
+        below_school_pieData.append(seas_below50)
+        below_school_pieData.append(nurs_below50)
+        below_school_pieData.append(whar_below50)
+
+        # location
+        below_loc_pieData = []
+        onCampus_below50 = quizUser.objects.filter(covidScore__lt = 50).filter(college_loc = 'On Campus').count()
+        offCampus_below50 = quizUser.objects.filter(covidScore__lt = 50).filter(college_loc = 'Off Campus').count()
+        atHome_below50 = quizUser.objects.filter(covidScore__lt = 50).filter(college_loc = 'At Home').count()
+        
+        below_loc_pieData.append(onCampus_below50)
+        below_loc_pieData.append(offCampus_below50)
+        below_loc_pieData.append(atHome_below50)
+
+        #--------------------------------------STUDENTS WITH A SCORE ABOVE 50%--------------------------------------
+       # year
+        above_year_pieData = []
+        fresh_above50 = quizUser.objects.filter(covidScore__gt = 50).filter(year_in_school = 'Freshman').count()
+        soph_above50 = quizUser.objects.filter(covidScore__gt = 50).filter(year_in_school = 'Sophomore').count()
+        junior_above50 = quizUser.objects.filter(covidScore__gt = 50).filter(year_in_school = 'Junior').count()
+        senior_above50 = quizUser.objects.filter(covidScore__gt = 50).filter(year_in_school = 'Senior').count()
+        
+        above_year_pieData.append(fresh_above50)
+        above_year_pieData.append(soph_above50)
+        above_year_pieData.append(junior_above50)
+        above_year_pieData.append(senior_above50)
+        
+        # school
+        above_school_pieData = []
+        sas_above50 = quizUser.objects.filter(covidScore__gt = 50).filter(school = 'SAS').count()
+        seas_above50 = quizUser.objects.filter(covidScore__gt = 50).filter(school = 'SEAS').count()
+        nurs_above50 = quizUser.objects.filter(covidScore__gt = 50).filter(school = 'Nursing').count()
+        whar_above50 = quizUser.objects.filter(covidScore__gt = 50).filter(school = 'Wharton').count()
+        
+        
+        above_year_pieData.append(sas_above50)
+        above_year_pieData.append(seas_above50)
+        above_year_pieData.append(nurs_above50)
+        above_year_pieData.append(whar_above50)
+
+        # location
+        above_loc_pieData = []
+        onCampus_above50 = quizUser.objects.filter(covidScore__gt = 50).filter(college_loc = 'On Campus').count()
+        offCampus_above50 = quizUser.objects.filter(covidScore__gt = 50).filter(college_loc = 'Off Campus').count()
+        atHome_aboves50 = quizUser.objects.filter(covidScore__gt = 50).filter(college_loc = 'At Home').count()
+        
+        above_loc_pieData.append(onCampus_above50)
+        above_loc_pieData.append(offCampus_above50)
+        above_loc_pieData.append(atHome_aboves50)
 
 
-        #old stuff for testing intial graphs
-        # queryset = quizUser.objects.filter(covidScore__lte = currUser.covidScore)
-        # for user in queryset:
-        #     labels.append(user.id)
-        #     print("in query for loop")
-        #     data.append(user.covidScore)
-        # labels = barLabels
-        
-        
-    args = {'user': currUser, 'barLabels':barLabels, 'barData':barData,'pie_below_50_data_year':pie_below_50_data_year }
-    return render(request, 'dataVis.html',args)
+    args = {'user': currUser, 
+            'barLabels':barLabels, 
+            'barData':barData,
+            'below_year_pieData':below_year_pieData, 
+            'below_school_pieData':below_school_pieData,
+            'below_loc_pieData':below_loc_pieData,
+            'above_year_pieData':above_year_pieData, 
+            'above_school_pieData':above_school_pieData,
+            'above_loc_pieData':above_loc_pieData
+            }
+    return render(request, 'dataVis.html', args)
 
 def write_covidQuiz_questions(userID):
     currUser = quizUser.objects.get(id=userID)
@@ -198,10 +250,3 @@ def convertToNum(userChoice):
         
     print(userChoice," the number is ",numericalChoice)
     return numericalChoice
-
-def get_data(request, *args, **kwargs):
-    data = {
-        "sales": 100,
-        "customers": 10,
-    }
-    return JsonResponse(data)
